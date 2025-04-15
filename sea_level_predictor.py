@@ -9,28 +9,27 @@ def draw_plot():
     # Create scatter plot
     x = df['Year']
     y = df['CSIRO Adjusted Sea Level']
-    fig, ax =plt.subplots()
 
     # Create first line of best fit
-    res= linregress(x,y)
-    x0 = pd.Series([i for i in range(1880, 2051)])
-    y0 = res.slope*x0 + res.intercept
+    res= linregress(x,y) #Linear Regression
+    x0 = pd.Series(range(1880,2051)) #needs to go to 2051 since index starts at 0, and if 2050 it ends at 2049
+    y0 = res.slope*x0 + res.intercept #Line of best fit
 
-    plt.plot(x, y, 'o', alpha =0.5)
+    plt.scatter(x, y, alpha =0.5)
     plt.plot(x0, y0, 'r')
 
     
     # Create second line of best fit
-    new_df_2050 = df.loc[df['Year'] >= 2000]
-    new_x = new_df_2050['Year']
-    new_y = new_df_2050['CSIRO Adjusted Sea Level']
+    df_2000_2050 = df[df['Year'] >= 2000]
+    x_2000_2050 = df_2000_2050['Year'] #x labels are still attributed to Year
+    y_2000_2050 = df_2000_2050['CSIRO Adjusted Sea Level'] #y labels are still attributed to Sea Levels
 
-    res1= linregress(new_x,new_y)
+    res_2000_2050 = linregress(x_2000_2050, y_2000_2050)
 
-    x1 = pd.Series([i for i in range(2000, 2051)])
-    y1 = res1.slope*x1 + res1.intercept
+    x1 = pd.Series(range(2000,2051)) #needs to go to 2051 since index starts at 0, and if 2050 it ends at 2049
+    y1 = res_2000_2050.slope*x1 + res_2000_2050.intercept #From Scipy documentation
 
-    plt.plot(x1, y1, 'y')
+    plt.plot(x1, y1, 'r')
 
 
     # Add labels and title
